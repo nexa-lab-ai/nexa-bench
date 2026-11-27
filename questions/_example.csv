@@ -1,0 +1,5 @@
+id,type,domain,category,difficulty,lang,source,question,answer,scoring,tolerance,notes
+exa-001,text,electronics,communication,2,en,human,"A CAN bus runs at 500 kbps with an 8 MHz clock. Sync=1 TQ, Prop_Seg=6 TQ, Phase_Seg1=7 TQ, Phase_Seg2=2 TQ. What is the sampling point as a percentage of the bit time?",87.5%,numeric,0.5,From the Week 3 electronics set
+exa-002,text,math,percentages,1,tr,human,"Bir ürün 800 TL. Önce %25 indirim, sonra kalan fiyata %10 zam yapılıyor. Son fiyat kaç TL?",660,numeric,0,
+exa-003,text,grammar,suffixes,2,tr,human,"""Kitaplıktakiler"" kelimesinde kaç yapım eki vardır? A) 0 B) 1 C) 2 D) 3",B,multiple_choice,,-lık is derivational; -ta/-ki/-ler are inflectional
+exa-004,image,image generation,counting,2,en,human,"A wooden table at dusk with exactly three red apples and two yellow lemons. A sign above reads ""AÇIK"" in white capital letters.",3 red apples; 2 yellow lemons; sign reads AÇIK (Ç correct); dusk lighting,checklist,,1 point per item

@@ -178,6 +178,11 @@ def main():
     df.columns = [c.strip() for c in df.columns]
     # accept both "doğru_cevap" and "dogru_cevap"
     df = df.rename(columns={"doğru_cevap": "dogru_cevap"})
+    # accept the English column names used in questions/ (see README)
+    df = df.rename(columns={"question": "soru", "answer": "dogru_cevap", "scoring": "puanlama",
+                            "tolerance": "tolerans", "difficulty": "zorluk", "lang": "dil",
+                            "domain": "alan", "category": "kategori"})
+    df["puanlama"] = df["puanlama"].replace({"multiple_choice": "coktan_secmeli", "numeric": "sayisal"})
 
     client = OpenAI(base_url=a.base_url, api_key=a.api_key)
 

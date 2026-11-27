@@ -1,51 +1,86 @@
 # NEXA-Bench
 
-NEXA Fellowship katılımcılarının birlikte yazdığı, Türkçe ağırlıklı, çok alanlı benchmark.
-Her katılımcı kendi alanından en az **50 insan yazımı soru** ekler; sorular PR ile gelir, bir arkadaş ve mentor onaylar.
+A shared, mostly Turkish, multi-domain benchmark and assistant dataset built by NEXA Fellowship members.
+Everyone adds their work through pull requests and keeps adding to their own files week by week.
 
-| Alan | Katkıcı | Tür |
+| Domain | Contributor | Type |
 |---|---|---|
-| Türkçe özet ve halüsinasyon | Sedat | metin |
-| Görsel üretimde sayma ve sahne sadakati | Tuana | görsel |
-| Video modellerinde karakter tutarlılığı | Kaan | video |
-| Elektrik-elektronik hesapları | Mustafa | metin |
-| Ders notlarından sınav | Kutay | metin |
+| Turkish summarization and hallucination | Sedat | text |
+| Counting and scene fidelity in image generation | Tuana | image |
+| Character consistency in video models | Kaan | video |
+| Electrical and electronics calculations | Mustafa | text |
+| Exams from lecture notes | Kutay | text |
 
-## Yapı
+## Layout
+
+Each person has **one file per folder**, named after their GitHub username. Keep adding to it; don't create new files each week.
 
 ```
-sorular/
-  _ornek.csv          biçim örneği, sayılmaz
-  <github-kullanici-adi>.csv   herkesin kendi dosyası (çakışma olmasın diye)
-scripts/dogrula.py    biçim kontrolü, her PR'da otomatik çalışır
+questions/<username>.csv     benchmark questions          (Week 4)
+chats/<username>.jsonl       assistant chats with tool calls (Week 5)
+finetune/<username>.csv      one row per fine-tune run      (Week 5)
+scripts/validate.py          format check, runs on every PR
 ```
 
-## Sütunlar
+Files starting with `_` are examples and are not counted. Copy them to start your own.
 
-| Sütun | Değerler |
+## questions/
+
+| Column | Values |
 |---|---|
-| `id` | `kisaltma-001` (küçük harf, dosya adının ilk 3 harfiyle başlar) |
-| `tur` | `metin` · `gorsel` · `video` |
-| `alan`, `kategori` | serbest metin; dosya başına en az 3 kategori |
-| `zorluk` | `1` tek adım · `2` birkaç adım · `3` uzman |
-| `dil` | `tr` · `en` |
-| `kaynak` | `insan` · `ai` (AI'a ürettirdiysen mutlaka `ai`) |
-| `soru`, `dogru_cevap` | cevap modelleri denemeden önce yazılır |
-| `puanlama` | `tam_eslesme` · `coktan_secmeli` · `sayisal` · `kontrol_listesi` · `rubrik` |
-| `tolerans` | `sayisal` için zorunlu: `2%` ya da `0.01` |
-| `not` | kaynak, çözüm notu, uyarı |
+| `id` | `abc-001` (lowercase, first 3 letters of your file name) |
+| `type` | `text` · `image` · `video` |
+| `domain`, `category` | free text; at least 3 categories per file |
+| `difficulty` | `1` one step · `2` a few steps · `3` expert |
+| `lang` | `tr` · `en` |
+| `source` | `human` · `ai` (anything a model generated is `ai`) |
+| `question`, `answer` | write the answer before testing any model |
+| `scoring` | `exact_match` · `multiple_choice` · `numeric` · `checklist` · `rubric` |
+| `tolerance` | required for `numeric`: `2%` or `0.01` |
+| `notes` | source, solution hint, caveats |
 
-Görsel/video sorularında `soru` prompt'tur, `dogru_cevap` ise `;` ile ayrılmış kontrol maddeleridir.
+For image/video questions, `question` is the prompt and `answer` is a `;`-separated checklist.
+Goal: **at least 50 human-written questions**, 3 categories, all 3 difficulty levels.
 
-## Kurallar
+## chats/
 
-1. Açık set burada, gizli set senin reposunda. Kendi 100+ sorundan en az 50'sini buraya koy, kalanı yayınlama (kontaminasyon).
-2. İnternetten kopya soru yok. Uyarladıysan `not` sütununa kaynağı yaz.
-3. Bir soru tek ve net bir doğru cevaba sahip olmalı. Tartışmalıysa `rubrik` kullan.
-4. Herkes yalnızca kendi dosyasını değiştirir.
+One chat per line (JSONL), in the standard chat format with tool calls:
 
-Katkı adımları: [CONTRIBUTING.md](CONTRIBUTING.md)
+```json
+{"messages": [{"role": "system", ...}, {"role": "user", ...},
+              {"role": "assistant", "tool_calls": [{"type": "function", "function": {"name": "search_products", "arguments": {...}}}]},
+              {"role": "tool", "name": "search_products", "content": "..."},
+              {"role": "assistant", "content": "..."}],
+ "tools": [...schemas...], "source": "human|ai", "review": "ok|fixed|-", "split": "train|test"}
+```
 
-## Lisans
+- `source`: `human` if you wrote it, `ai` if a model generated it.
+- `review`: for AI chats you read by hand, `ok` or `fixed`; `-` otherwise. Delete rejected chats.
+- `split`: optional, defaults to `train`. Put ~10% of chats in `test`, preferably human ones.
 
-MIT. Ayrıntı: [LICENSE](LICENSE)
+Goal: 30+ human and 280+ total chats, 3+ tools, 40%+ of chats with a tool call, 20%+ of AI chats reviewed.
+The validator checks that tools are defined, arguments match the schema, chats aren't duplicated and Turkish characters aren't broken.
+
+## finetune/
+
+One row per training run. Add a new row for every run, even the bad ones.
+See [`finetune/_example.csv`](finetune/_example.csv) for the columns.
+
+- `method`: `full` · `lora` · `qlora`; `r` and `lora_alpha` are required for LoRA.
+- `bench_*`: your benchmark score (%), `format_err_*`: answers that failed the format (count).
+- `tool_acc_*` / `arg_acc_ft`: correct tool / correct arguments on your test chats (%).
+- Run base and fine-tuned models with the same prompt and settings. At least 2 model families.
+
+## Rules
+
+1. Only change your own files.
+2. Public set here, private set in your own repo. Put at least 50 of your 100+ questions here and don't publish the rest (contamination). Scores are public.
+3. No copied content from the internet. If you adapted something, cite it in `notes`.
+4. A question must have one clear correct answer. If it's debatable, use `rubric`.
+5. No personal data in chats.
+
+How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## License
+
+MIT. See [LICENSE](LICENSE).

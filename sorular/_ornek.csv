@@ -1,5 +1,0 @@
-id,tur,alan,kategori,zorluk,dil,kaynak,soru,dogru_cevap,puanlama,tolerans,not
-orn-001,metin,elektrik,haberleşme,2,en,insan,"A CAN bus runs at 500 kbps with an 8 MHz clock. Sync=1 TQ, Prop_Seg=6 TQ, Phase_Seg1=7 TQ, Phase_Seg2=2 TQ. What is the sampling point as a percentage of the bit time?",87.5%,sayisal,0.5,Week 3 elektrik setinden
-orn-002,metin,matematik,oran-yüzde,1,tr,insan,"Bir ürün 800 TL. Önce %25 indirim, sonra kalan fiyata %10 zam yapılıyor. Son fiyat kaç TL?",660,sayisal,0,
-orn-003,metin,dil bilgisi,ekler,2,tr,insan,"""Kitaplıktakiler"" kelimesinde kaç yapım eki vardır? A) 0 B) 1 C) 2 D) 3",B,coktan_secmeli,,-lık yapım; -ta/-ki/-ler çekim
-orn-004,gorsel,görsel üretim,sayma,2,en,insan,"A wooden table at dusk with exactly three red apples and two yellow lemons. A sign above reads ""AÇIK"" in white capital letters.",3 kırmızı elma; 2 sarı limon; tabelada AÇIK yazıyor (Ç doğru); alacakaranlık ışığı,kontrol_listesi,,her madde 1 puan

@@ -1,13 +1,22 @@
-## Ne ekledim
-<!-- Örnek: elektrik alanında 20 yeni soru (haberleşme 8, güç 6, dijital 6) -->
+## What I added
+<!-- e.g. 20 electronics questions (communication 8, power 6, digital 6) · 35 hand-written chats · 2 fine-tune runs -->
 
-## Kontrol listesi
-- [ ] Sadece kendi dosyama dokundum: `sorular/<kullanici-adim>.csv`
-- [ ] `python scripts/dogrula.py` yerelde hatasız çalıştı
-- [ ] Her sorunun doğru cevabını modelleri denemeden **önce** yazdım
-- [ ] `kaynak=ai` olan soruları ayrı işaretledim
-- [ ] Bu sorular gizli setimden değil, açık demo setimden
-- [ ] Toplamda en az 50 insan sorusu, 3 kategori, 3 zorluk (son PR için)
+## Checklist
+- [ ] I only changed my own files: `questions/`, `chats/`, `finetune/` + `<my-github-username>`
+- [ ] `python scripts/validate.py` passes locally
+- [ ] Nothing here comes from my private (gated) set, and there is no personal data
 
-## Reviewer'a not
-<!-- Emin olmadığın 1-2 soruyu yaz, özellikle onlara baksın. -->
+**Questions**
+- [ ] I wrote each answer **before** trying any model
+- [ ] AI-generated questions are marked `source=ai`
+
+**Chats**
+- [ ] Hand-written chats are `source=human`; AI-generated ones are `source=ai` with a `review` label
+- [ ] Rejected AI chats are deleted, not left in the file
+
+**Fine-tune**
+- [ ] Base and fine-tuned models were run with the same prompt and settings
+- [ ] `hf_link` opens and has a model card
+
+## Note for the reviewer
+<!-- 1-2 items you are unsure about, so they look at those first. -->

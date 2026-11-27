@@ -1,0 +1,2 @@
+date,base_model,method,hf_link,r,lora_alpha,learning_rate,epochs,max_seq_length,train_minutes,gpu,bench_base,bench_ft,format_err_base,format_err_ft,tool_acc_base,tool_acc_ft,arg_acc_ft,notes
+2026-12-02,unsloth/Qwen3-4B-Instruct-2507,qlora,https://huggingface.co/your-user/qwen3-4b-sales-lora,16,16,2e-4,3,2048,38,T4,61.0,58.5,4,9,42.0,81.0,74.0,Bench dropped 2.5 pts; most of it is format errors (answers missing the final number)
